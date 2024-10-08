@@ -28,23 +28,58 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # - uses: actions/checkout@v4
+      # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # # - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
+      # # Runs a single command using the runners shell
+      # # - name: Run a one-line script
+      #   # run: echo Hello, world!
+
+      # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # - uses: actions/checkout@v2
+
+      # # Runs a single command using the runners shell
       # - name: Run a one-line script
-        # run: echo Hello, world!
+      #   run: echo Hello, world! from ${{ matrix.arch }} architecture
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # # Runs a set of commands using the runners shell
+      # - name: Run a multi-line script
+      #   run: |
+      #     echo Add other actions to build,
+      #     echo test, and deploy your project.
+      #     date
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world! from ${{ matrix.arch }} architecture
+      
+      - name: Checkout LLVM source code
+        uses: actions/checkout@v2
+        with:
+          repository: llvm/llvm-project
+          path: llvm-project
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Set up build environment
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          date
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build python3
+
+      - name: Configure LLVM build
+        run: |
+          mkdir -p llvm-project/build
+          cd llvm-project/build
+          cmake -G Ninja \
+            -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
+            -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_ENABLE_ASSERTIONS=ON \
+            ../llvm
+
+      - name: Build LLVM
+        run: |
+          cd llvm-project/build
+          ninja
+        env:
+          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 2 || 8 }}
+
+      - name: Display build information
+        run: |
+          echo "Architecture: ${{ matrix.arch }}"
+          echo "Build completed on $(date)"
