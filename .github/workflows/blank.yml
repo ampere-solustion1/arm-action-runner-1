@@ -52,7 +52,7 @@ jobs:
       - name: Log Operating System Details
         run: |
           echo "Architecture: ${{ matrix.arch }}"
-          uname -a 
+          uname -a
           lsb_release -a || cat /etc/os-release
       
       - name: Checkout LLVM source code
