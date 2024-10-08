@@ -48,7 +48,12 @@ jobs:
       #     echo Add other actions to build,
       #     echo test, and deploy your project.
       #     date
-
+      
+      - name: Log Operating System Details
+        run: |
+          echo "Architecture: ${{ matrix.arch }}"
+          uname -a
+          lsb_release -a || cat /etc/os-release
       
       - name: Checkout LLVM source code
         uses: actions/checkout@v2
