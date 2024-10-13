@@ -4,58 +4,20 @@ name: CI
 
 # Controls when the workflow will run 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:  
     branches: [ "main" ]     
   pull_request:
     branches: [ "main" ]    
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
     strategy:
       matrix:
         arch: [x86, arm64]
-    # The type of runner that the job will run on
-    # runs-on: arc-runner-set-ampere #[self-hosted, Linux, ARM64]  #ubuntu-latest
     runs-on: ${{ matrix.arch == 'x86' && 'ubuntu-latest' || 'arc-runner-set-ampere' }}
-    # If 'arch' is 'x86', use 'ubuntu-latest' (GitHub-hosted runner)
-    # If 'arch' is 'arm64', use 'self-hosted' (your ARM64 runner)
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # - name: Log Operating System Details
-      #   run: |
-      #     echo "Architecture: ${{ matrix.arch }}"
-      #     uname -a
-      #     lsb_release -a || cat /etc/os-release
-
-          
-      # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # # - uses: actions/checkout@v4
-
-      # # Runs a single command using the runners shell
-      # # - name: Run a one-line script
-      #   # run: echo Hello, world!
-
-      # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # - uses: actions/checkout@v2
-
-      # # Runs a single command using the runners shell
-      # - name: Run a one-line script
-      #   run: echo Hello, world! from ${{ matrix.arch }} architecture
-
-      # # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
-      #     date
-      
       - name: Log Operating System Details
         run: |
           echo "Architecture: ${{ matrix.arch }}"
@@ -78,7 +40,8 @@ jobs:
           mkdir -p llvm-project/build
           cd llvm-project/build
           cmake -G Ninja \
-            -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
+            -DLLVM_ENABLE_PROJECTS="clang" \
+            -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_ASSERTIONS=ON \
