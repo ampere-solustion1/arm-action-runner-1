@@ -11,11 +11,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  LLVM_build_arm64_and_x86:
     strategy:
       matrix:
-        arch: [x86, arm64]
-    runs-on: ${{ matrix.arch == 'x86' && 'ubuntu-latest' || 'arc-runner-set-ampere' }}
+        arch: [arm64, x86]
+    runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     steps:
       - name: Log Operating System Details
@@ -23,41 +23,40 @@ jobs:
           echo "Architecture: ${{ matrix.arch }}"
           uname -a
           lsb_release -a || cat /etc/os-release
-          lsblk
           lscpu
           
       
-      # - name: Checkout LLVM source code
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: llvm/llvm-project
-      #     path: llvm-project
+      - name: Checkout LLVM source code
+        uses: actions/checkout@v2
+        with:
+          repository: llvm/llvm-project
+          path: llvm-project
 
-      # - name: Set up build environment
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y build-essential cmake ninja-build python3
+      - name: Set up build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build python3
 
-      # - name: Configure LLVM build
-      #   run: |
-      #     mkdir -p llvm-project/build
-      #     cd llvm-project/build
-      #     cmake -G Ninja \
-      #       -DLLVM_ENABLE_PROJECTS="clang" \
-      #        -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi" \
-      #       -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
-      #       -DCMAKE_BUILD_TYPE=Release \
-      #       -DLLVM_ENABLE_ASSERTIONS=ON \
-      #       ../llvm
+      - name: Configure LLVM build
+        run: |
+          mkdir -p llvm-project/build
+          cd llvm-project/build
+          cmake -G Ninja \
+            -DLLVM_ENABLE_PROJECTS="clang" \
+             -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi" \
+            -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_ENABLE_ASSERTIONS=ON \
+            ../llvm
 
-      # - name: Build LLVM
-      #   run: |
-      #     cd llvm-project/build
-      #     ninja
-      #   env:
-      #     LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 2 || 8 }}
+      - name: Build LLVM
+        run: |
+          cd llvm-project/build
+          ninja
+        env:
+          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 8 || 8 }}
 
-      # - name: Display build information
-      #   run: |
-      #     echo "Architecture: ${{ matrix.arch }}"
-      #     echo "Build completed on $(date)"
+      - name: Display build information
+        run: |
+          echo "Architecture: ${{ matrix.arch }}"
+          echo "Build completed on $(date)"
