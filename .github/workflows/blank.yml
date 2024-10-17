@@ -61,7 +61,7 @@ jobs:
           echo "Architecture: ${{ matrix.arch }}"
           echo "Build completed on $(date)"
 
-  LLVM-distribute:
+  deploy:
     needs: LLVM_build
     runs-on: ubuntu-latest
     strategy:
@@ -75,28 +75,28 @@ jobs:
           name: llvm-build-${{ matrix.arch }}
           path: llvm-build-${{ matrix.arch }}
 
-      - name: Package LLVM binaries
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
         run: |
-          cd llvm-build-${{ matrix.arch }}
-          tar -czvf llvm-project-${{ matrix.arch }}.tar.gz .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest llvm-build-${{ matrix.arch }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Kubernetes
+        uses: azure/k8s-set-context@v1
         with:
-          tag_name: v1.0.0-${{ matrix.arch }}
-          release_name: LLVM v1.0.0 for ${{ matrix.arch }}
-          draft: false
-          prerelease: false
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: llvm-build-${{ matrix.arch }}/llvm-project-${{ matrix.arch }}.tar.gz
-          asset_name: llvm-project-${{ matrix.arch }}.tar.gz
-          asset_content_type: application/gzip
+      - name: Argo CD Login
+        run: |
+          argocd login ${{ secrets.ARGOCD_SERVER }} --username ${{ secrets.ARGOCD_USERNAME }} --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
+
+      - name: Sync Argo CD Application
+        run: |
+          argocd app sync your-app-name
+          argocd app wait your-app-name --health
