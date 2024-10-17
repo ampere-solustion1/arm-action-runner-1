@@ -60,3 +60,43 @@ jobs:
         run: |
           echo "Architecture: ${{ matrix.arch }}"
           echo "Build completed on $(date)"
+
+  LLVM-distribute:
+    needs: LLVM_build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [arm64, x86]
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: llvm-build-${{ matrix.arch }}
+          path: llvm-build-${{ matrix.arch }}
+
+      - name: Package LLVM binaries
+        run: |
+          cd llvm-build-${{ matrix.arch }}
+          tar -czvf llvm-project-${{ matrix.arch }}.tar.gz .
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0-${{ matrix.arch }}
+          release_name: LLVM v1.0.0 for ${{ matrix.arch }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: llvm-build-${{ matrix.arch }}/llvm-project-${{ matrix.arch }}.tar.gz
+          asset_name: llvm-project-${{ matrix.arch }}.tar.gz
+          asset_content_type: application/gzip
