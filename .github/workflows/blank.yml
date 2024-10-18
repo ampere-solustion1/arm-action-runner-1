@@ -61,6 +61,12 @@ jobs:
           echo "Architecture: ${{ matrix.arch }}"
           echo "Build completed on $(date)"
 
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: llvm-build-${{ matrix.arch }}
+          path: llvm-project/build
+
   deploy:
     needs: LLVM_build
     runs-on: ubuntu-latest
