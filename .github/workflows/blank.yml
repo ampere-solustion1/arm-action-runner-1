@@ -92,7 +92,15 @@ jobs:
       - name: List build directory contents
         run: |
           ls -la llvm-build-${{ matrix.arch }}
-
+          
+      - name: Copy Dockerfile to build directory
+        run: |
+          cp Dockerfile llvm-build-${{ matrix.arch }}
+          
+      - name: List build directory contents
+        run: |
+          ls -la llvm-build-${{ matrix.arch }}  
+          cat llvm-build-${{ matrix.arch }}/Dockerfile
 
       - name: Copy build artifacts to root
         run: |
@@ -100,7 +108,6 @@ jobs:
           
       - name: Build and push Docker image
         run: |
-          cd llvm-build-${{ matrix.arch }}
           docker build -t ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest llvm-build-${{ matrix.arch }}
           docker push ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest
 
