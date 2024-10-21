@@ -124,7 +124,9 @@ jobs:
 
       - name: Sync Argo CD Application
         env:
-          ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
         run: |
-          argocd login <ARGOCD_SERVER> --username <ARGOCD_USERNAME> --password $ARGOCD_AUTH_TOKEN --insecure
+          argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
           argocd app sync nginx-app
