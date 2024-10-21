@@ -128,6 +128,8 @@ jobs:
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
           ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
         run: |
+          # Debug the argocd login command
+          echo "argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure"
           # Login to Argo CD and sync the application
-          ./argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
-          ./argocd app sync nginx-app
+          argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
+          argocd app sync nginx-app
