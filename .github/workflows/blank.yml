@@ -144,7 +144,7 @@ jobs:
           
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest llvm-build-${{ matrix.arch }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest
 
       - name: Set up Kubernetes
