@@ -73,6 +73,11 @@ jobs:
         arch: [arm64]
     runs-on: 'arc-runner-set-ampere' 
 
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
+
     steps:
       # - name: Download build artifacts
       #   uses: actions/download-artifact@v4
@@ -96,11 +101,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3 docker
-
-      - name: Start Docker daemon
-        run: |
-          sudo systemctl start docker
-          sudo systemctl enable docker
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
