@@ -93,9 +93,9 @@ jobs:
           pwd
       
       - name: Set up Docker-in-Docker
-        uses: docker/setup-docker-action@v2
-        with:
-          dind: true
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 docker
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
