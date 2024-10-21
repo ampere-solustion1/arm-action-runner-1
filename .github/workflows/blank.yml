@@ -97,6 +97,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3 docker
 
+      - name: Start Docker daemon
+        run: |
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
