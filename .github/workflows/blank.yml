@@ -113,20 +113,18 @@ jobs:
           
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/cicd-project:${{ matrix.arch }}-latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/cicd-project:${{ matrix.arch }}-latest
 
-      # - name: Set up Kubernetes
-      #   uses: azure/k8s-set-context@v4
-      #   with:
-      #     method: kubeconfig
-      #     kubeconfig: ${{ secrets.KUBECONFIG }}
-
-      - name: Argo CD Login
+      - name: Install Argo CD CLI
         run: |
-          argocd login ${{ secrets.ARGOCD_SERVER }} --username ${{ secrets.ARGOCD_USERNAME }} --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x argocd
+          sudo mv argocd /usr/local/bin/
 
       - name: Sync Argo CD Application
+        env:
+          ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
         run: |
-          argocd app sync your-app-name
-          argocd app wait your-app-name --health
+          argocd login <ARGOCD_SERVER> --username <ARGOCD_USERNAME> --password $ARGOCD_AUTH_TOKEN --insecure
+          argocd app sync nginx-app
