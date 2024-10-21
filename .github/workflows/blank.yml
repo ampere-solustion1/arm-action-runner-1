@@ -128,5 +128,9 @@ jobs:
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
           ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
         run: |
+          # Debug the environment variables
+          echo "ARGOCD_SERVER: $ARGOCD_SERVER"
+          echo "ARGOCD_USERNAME: $ARGOCD_USERNAME"
+          echo "ARGOCD_PASSWORD: $ARGOCD_PASSWORD"
           argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
           argocd app sync nginx-app
