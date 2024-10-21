@@ -93,6 +93,19 @@ jobs:
         run: |
           ls -la
 
+      - name: Copy Dockerfile to build directory
+        run: |
+          cp $GITHUB_WORKSPACE/Dockerfile llvm-build-${{ matrix.arch }}
+
+      - name: List build directory contents
+        run: |
+          ls -la llvm-build-${{ matrix.arch }}  
+          cat llvm-build-${{ matrix.arch }}/Dockerfile
+
+      - name: Copy build artifacts to root
+        run: |
+          cp -r llvm-build-${{ matrix.arch }}/* .   
+
       - name: List build directory contents
         run: |
           ls -la llvm-build-${{ matrix.arch }}
