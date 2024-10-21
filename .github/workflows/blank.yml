@@ -93,6 +93,10 @@ jobs:
         run: |
           ls -la
 
+      - name: List repo
+        run: |
+          ls $GITHUB_WORKSPACE
+
       - name: Copy Dockerfile to build directory
         run: |
           cp $GITHUB_WORKSPACE/Dockerfile llvm-build-${{ matrix.arch }}
