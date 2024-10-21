@@ -25,16 +25,16 @@ jobs:
           lsb_release -a || cat /etc/os-release
           lscpu
       
-      - name: Checkout LLVM source code
-        uses: actions/checkout@v4
-        with:
-          repository: llvm/llvm-project
-          path: llvm-project
+      # - name: Checkout LLVM source code
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: llvm/llvm-project
+      #     path: llvm-project
 
-      - name: Set up build environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential cmake ninja-build python3
+      # - name: Set up build environment
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y build-essential cmake ninja-build python3
 
       # - name: Configure LLVM build
       #   run: |
@@ -55,16 +55,16 @@ jobs:
       #   env:
       #     LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 8 || 8 }}
 
-      - name: Display build information
-        run: |
-          echo "Architecture: ${{ matrix.arch }}"
-          echo "Build completed on $(date)"
+      # - name: Display build information
+      #   run: |
+      #     echo "Architecture: ${{ matrix.arch }}"
+      #     echo "Build completed on $(date)"
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: llvm-build-${{ matrix.arch }}
-          path: llvm-project/build
+      # - name: Upload Build Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: llvm-build-${{ matrix.arch }}
+      #     path: llvm-project/build
 
   deploy:
     needs: LLVM_build
