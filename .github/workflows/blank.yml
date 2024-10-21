@@ -68,10 +68,10 @@ jobs:
 
   deploy:
     needs: LLVM_build
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         arch: [arm64, x86]
+    runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     steps:
       # - name: Download build artifacts
