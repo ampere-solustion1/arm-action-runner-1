@@ -73,7 +73,7 @@ jobs:
       matrix:
         arch: [arm64, x86]
 
-    # steps:
+    steps:
     #   - name: Download build artifacts
     #     uses: actions/download-artifact@v4
     #     with:
