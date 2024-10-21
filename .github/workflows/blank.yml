@@ -148,11 +148,11 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/llvm-project:${{ matrix.arch }}-latest
 
-      - name: Set up Kubernetes
-        uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+      # - name: Set up Kubernetes
+      #   uses: azure/k8s-set-context@v4
+      #   with:
+      #     method: kubeconfig
+      #     kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Argo CD Login
         run: |
