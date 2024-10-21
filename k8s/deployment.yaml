@@ -19,3 +19,5 @@ spec:
         image: gulianglily/cicd-project:amd64-latest
         ports:
         - containerPort: 80
+    imagePullSecrets:
+      - name: dockerhub-secret
