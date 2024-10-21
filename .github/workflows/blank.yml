@@ -109,39 +109,7 @@ jobs:
       - name: List repo
         run: |
           ls $GITHUB_WORKSPACE
-          pwd
-
-      # - name: Copy Dockerfile to build directory
-      #   run: |
-      #     cp $GITHUB_WORKSPACE/Dockerfile llvm-build-${{ matrix.arch }}
-      #     ls llvm-build-${{ matrix.arch }}
-      #     ls llvm-build-${{ matrix.arch }}/llvm-build-${{ matrix.arch }} 
-
-      # - name: List build directory contents
-      #   run: |
-      #     ls -la llvm-build-${{ matrix.arch }}  
-      #     cat llvm-build-${{ matrix.arch }}/Dockerfile
-
-      # - name: Copy build artifacts to root
-      #   run: |
-      #     cp -r llvm-build-${{ matrix.arch }}/* .   
-
-      # - name: List build directory contents
-      #   run: |
-      #     ls -la llvm-build-${{ matrix.arch }}
-          
-      # - name: Copy Dockerfile to build directory
-      #   run: |
-      #     cp Dockerfile llvm-build-${{ matrix.arch }}
-          
-      # - name: List build directory contents
-      #   run: |
-      #     ls -la llvm-build-${{ matrix.arch }}  
-      #     cat llvm-build-${{ matrix.arch }}/Dockerfile
-
-      # - name: Copy build artifacts to root
-      #   run: |
-      #     cp -r llvm-build-${{ matrix.arch }}/* .   
+          pwd 
           
       - name: Build and push Docker image
         run: |
