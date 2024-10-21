@@ -1,6 +1,14 @@
-FROM llvmorg/llvm:latest
+# Use the official NGINX base image
+FROM nginx:latest
 
-# Optionally, you can add additional steps here if needed
+# Copy custom configuration file from the current directory to the container
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Set the default command to run
-CMD ["clang", "--version"]
+# Copy the static website files to the nginx HTML directory
+COPY html /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
