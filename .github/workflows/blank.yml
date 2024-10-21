@@ -122,7 +122,7 @@ jobs:
           chmod +x argocd
           sudo mv argocd /usr/local/bin/
 
-      - name: Sync Argo CD Application
+      - name: Login Argo CD 
         env:
           ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
@@ -132,4 +132,11 @@ jobs:
           echo "argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure"
           # Login to Argo CD and sync the application
           argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
+
+      - name: Sync Argo CD Application
+        env:
+          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
+        run: |
           argocd app sync nginx-app
