@@ -96,6 +96,7 @@ jobs:
       - name: List repo
         run: |
           ls $GITHUB_WORKSPACE
+          pwd
 
       - name: Copy Dockerfile to build directory
         run: |
