@@ -2,7 +2,7 @@
 FROM llvm/llvm:latest
 
 # Set the working directory inside the container
-WORKDIR /llvm-project
+WORKDIR /
 
 # Copy the build artifacts from the host to the container
 COPY . .
