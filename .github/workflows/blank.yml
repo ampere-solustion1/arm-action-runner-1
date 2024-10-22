@@ -100,11 +100,11 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx inspect --bootstrap
-          docker buildx build --platform linux/${{ matrix.arch }} --tag ${{ secrets.DOCKER_USERNAME }}/cicd-project:${{ matrix.arch }}-latest --push .
+          docker buildx build --platform linux/${{ matrix.arch }} --tag ${{ secrets.DOCKER_USERNAME }}/ampere-solution-cicd-project:${{ matrix.arch }}-latest --push .
       
       - name: Install Argo CD CLI
         run: |
-          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-arm64
           chmod +x argocd
           sudo mv argocd /usr/local/bin/
 
