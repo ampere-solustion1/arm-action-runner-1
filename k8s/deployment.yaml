@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: gulianglily/cicd-project:ampere-solution-arm64-latest
+        image: gulianglily/cicd-project:arm64-latest
         ports:
         - containerPort: 80
