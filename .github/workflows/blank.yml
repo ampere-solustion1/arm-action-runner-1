@@ -92,6 +92,17 @@ jobs:
           ls -la $GITHUB_WORKSPACE
           pwd
 
+      - name: Check Docker installation 
+        run: | 
+          echo "Checking Docker version:" 
+          docker --version 
+          echo "Checking Docker service status:" 
+          sudo systemctl status docker 
+          echo "Checking permissions for Docker socket:"
+          ls -la /var/run/docker.sock 
+          echo "Checking if current user belongs to the Docker group:" 
+          groups
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
        
