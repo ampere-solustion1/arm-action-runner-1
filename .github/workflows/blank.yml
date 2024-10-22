@@ -110,6 +110,13 @@ jobs:
         run: |
           ls $GITHUB_WORKSPACE
           pwd 
+
+      - name: Ensure Docker is running
+        run: |
+          sudo systemctl start docker
+          sudo systemctl status docker
+          sudo usermod -aG docker $USER
+          newgrp docker
           
       - name: Build and push Docker image
         run: |
