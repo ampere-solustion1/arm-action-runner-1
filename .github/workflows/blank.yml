@@ -90,11 +90,14 @@ jobs:
       #   with:
       #     name: llvm-build-${{ matrix.arch }}
       #     path: llvm-build-${{ matrix.arch }}
+      - name: Set DOCKER_HOST for Docker-in-Docker
+        run: echo "DOCKER_HOST=tcp://localhost:2375" >> $GITHUB_ENV  # Set DOCKER_HOST
+
       - name: Wait for Docker to start
-        run: sleep 60  # Give Docker some time to start in the container
+        run: sleep 30  # Wait for Docker service to start
 
       - name: Check Docker service is running
-        run: docker ps  # Verifies that Docker is up and running
+        run: docker ps  # Verify Docker service
 
       - name: List root directory contents
         run: |
