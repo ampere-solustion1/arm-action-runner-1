@@ -114,11 +114,23 @@ jobs:
           echo "ARGOCD_USERNAME: $ARGOCD_USERNAME"
           echo "ARGOCD_PASSWORD: $ARGOCD_PASSWORD"
       
-      - name: Check DNS Resolution
+      - name: Check DNS Resolution with nslookup
+        continue-on-error: true  # Continue even if this step fails
         run: |
           nslookup $ARGOCD_SERVER
       
+      - name: Check DNS Resolution with dig
+        continue-on-error: true  # Continue even if this step fails
+        run: |
+          dig $ARGOCD_SERVER
+      
+      - name: Check DNS Resolution with host
+        continue-on-error: true  # Continue even if this step fails
+        run: |
+          host $ARGOCD_SERVER
+      
       - name: Check Network Connectivity
+        continue-on-error: true  # Continue even if this step fails
         run: |
           ping -c 4 $ARGOCD_SERVER
       
