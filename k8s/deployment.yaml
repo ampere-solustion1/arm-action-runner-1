@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: gulianglily/cicd-project:amd64-latest
+        image: gulianglily/cicd-project:arm64-latest
         ports:
         - containerPort: 80
     imagePullSecrets:
