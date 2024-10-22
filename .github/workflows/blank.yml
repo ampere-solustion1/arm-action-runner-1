@@ -73,6 +73,7 @@ jobs:
       - name: List root directory contents
         run: |
           ls -la
+          lscpu
     
       - name: Checkout repository
         uses: actions/checkout@v4
