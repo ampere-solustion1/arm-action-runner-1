@@ -75,13 +75,14 @@ jobs:
     services:
       docker:
         image: docker:20.10.16-dind
-        options: --privileged  # Required for Docker-in-Docker
+        options: --privileged  # Required to run Docker-in-Docker
         ports:
           - 2375:2375
         env:
-          DOCKER_TLS_CERTDIR: ""
+          DOCKER_TLS_CERTDIR: ""  # Disable TLS certs for Docker-in-Docker
         volumes:
           - /var/lib/docker
+
 
     steps:
       # - name: Download build artifacts
@@ -89,6 +90,11 @@ jobs:
       #   with:
       #     name: llvm-build-${{ matrix.arch }}
       #     path: llvm-build-${{ matrix.arch }}
+      - name: Wait for Docker to start
+        run: sleep 60  # Give Docker some time to start in the container
+
+      - name: Check Docker service is running
+        run: docker ps  # Verifies that Docker is up and running
 
       - name: List root directory contents
         run: |
