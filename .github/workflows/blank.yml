@@ -104,10 +104,29 @@ jobs:
       
       - name: Install Argo CD CLI
         run: |
-          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-arm64
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           chmod +x argocd
           sudo mv argocd /usr/local/bin/
-
+      
+      - name: Debug Environment Variables
+        run: |
+          echo "ARGOCD_SERVER: $ARGOCD_SERVER"
+          echo "ARGOCD_USERNAME: $ARGOCD_USERNAME"
+          echo "ARGOCD_PASSWORD: $ARGOCD_PASSWORD"
+      
+      - name: Check DNS Resolution
+        run: |
+          nslookup $ARGOCD_SERVER
+      
+      - name: Check Network Connectivity
+        run: |
+          ping -c 4 $ARGOCD_SERVER
+      
+      - name: Verify Argo CD CLI Installation
+        run: |
+          which argocd
+          argocd version
+      
       - name: Login Argo CD 
         env:
           ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
@@ -118,7 +137,7 @@ jobs:
           echo "argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure"
           # Login to Argo CD and sync the application
           argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
-
+      
       - name: Sync Argo CD Application
         env:
           ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
@@ -126,3 +145,4 @@ jobs:
           ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
         run: |
           argocd app sync nginx-app
+
