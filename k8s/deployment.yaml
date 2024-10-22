@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+eapiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: gulianglily/cicd-project:arm64-latest
+        image: gulianglily/ampere-solution-cicd-project:arm64-latest
         ports:
         - containerPort: 80
