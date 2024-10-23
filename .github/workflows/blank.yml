@@ -105,6 +105,21 @@ jobs:
         run: |
           sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+      - name: Add current user to Docker group
+        run: |
+          sudo usermod -aG docker $USER
+          newgrp docker
+
+      - name: Start Docker service
+        run: |
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
+      - name: Add current user to Docker group
+        run: |
+          sudo usermod -aG docker $USER
+          newgrp docker
+          
       - name: Verify Docker installation
         run: |
           sudo docker run hello-world
