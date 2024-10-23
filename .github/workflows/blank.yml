@@ -88,30 +88,26 @@ jobs:
           fi
           sudo modprobe ip_tables || true
 
-      - name: Install Rootless Docker
+      - name: Set up Docker apt repository
         run: |
-          curl -fsSL https://get.docker.com/rootless -o get-docker-rootless.sh
-          export SKIP_IPTABLES=1
-          sh get-docker-rootless.sh
-          export PATH=$HOME/bin:$PATH
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates curl
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          echo \
+            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+            $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | \
+            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-get update
 
-      - name: Start Rootless Docker
+      - name: Install Docker Engine
         run: |
-          dockerd-rootless.sh --experimental &
-          sleep 10
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-      - name: Verify Docker Installation
+      - name: Verify Docker installation
         run: |
-          docker info
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          version: latest
-          driver: docker-container
-          buildkitd-flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
-          install: true
-          use: true
+          sudo docker run hello-world
           
       - name: Build Docker image
         run: |
