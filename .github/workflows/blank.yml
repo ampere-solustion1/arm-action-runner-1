@@ -78,15 +78,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker-in-Docker
+      - name: Install Docker
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo sh get-docker.sh
+          sudo usermod -aG docker $USER
+
+      - name: Start Docker service
+        run: |
+          sudo service docker start
+          # Ensure Docker is running
+          sudo docker info
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
         with:
           version: latest
-
-      - name: Install Docker CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-ce-cli
+          driver: docker-container
+          buildkitd-flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
+          install: true
+          use: true
 
       - name: Build Docker image
         run: |
