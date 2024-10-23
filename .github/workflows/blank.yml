@@ -78,14 +78,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Docker Rootless
+      - name: Install Dependencies for Rootless Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y uidmap iptables
+          # Ensure modprobe is available
+          if ! command -v modprobe &> /dev/null; then
+            sudo apt-get install -y kmod
+          fi
+          sudo modprobe ip_tables || true
+
+      - name: Install Rootless Docker
         run: |
           curl -fsSL https://get.docker.com/rootless -o get-docker-rootless.sh
+          export SKIP_IPTABLES=1
           sh get-docker-rootless.sh
-          export PATH=/home/runner/.docker/bin:$PATH
+          export PATH=$HOME/bin:$PATH
+
+      - name: Start Rootless Docker
+        run: |
           dockerd-rootless.sh --experimental &
           sleep 10
-          docker context use rootless
 
       - name: Verify Docker Installation
         run: |
