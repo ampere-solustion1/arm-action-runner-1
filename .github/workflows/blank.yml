@@ -66,8 +66,8 @@ jobs:
     strategy:
       matrix:
         arch: [arm64]
-    # runs-on: arc-runner-set-ampere
     runs-on: arm64-github-runner
+    # runs-on: arc-runner-set-ampere
 
     steps:
 
