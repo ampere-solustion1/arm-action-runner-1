@@ -101,15 +101,16 @@ jobs:
             sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
 
-      - name: Start Docker (without systemd)
+      - name: Start Docker in Rootless Mode
         run: |
-          sudo dockerd --host=unix:///var/run/docker.sock &
-          sleep 10
-
-          
+          export PATH=/usr/bin:$PATH
+          export DOCKER_HOST=unix:///run/user/1001/docker.sock
+          dockerd-rootless.sh &
+  
       - name: Verify Docker installation
         run: |
-          sudo docker run hello-world
+          export DOCKER_HOST=unix:///run/user/1001/docker.sock
+          docker run hello-world
           
       - name: Build Docker image
         run: |
