@@ -101,17 +101,10 @@ jobs:
             sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
 
-      - name: Install Docker Engine
+      - name: Start Docker (without systemd)
         run: |
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-
-
-      - name: Start Docker service
-        run: |
-          sudo systemctl start docker
-          sudo systemctl enable docker
-
+          sudo dockerd --host=unix:///var/run/docker.sock &
+          sleep 10
 
           
       - name: Verify Docker installation
