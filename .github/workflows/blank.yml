@@ -82,7 +82,6 @@ jobs:
         run: |
           curl -fsSL https://get.docker.com -o get-docker.sh
           sudo sh get-docker.sh
-          sudo usermod -aG docker $USER
 
       - name: Start Docker service
         run: |
@@ -98,7 +97,7 @@ jobs:
           buildkitd-flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
           install: true
           use: true
-
+          
       - name: Build Docker image
         run: |
           docker build -t llvm-cicd .
