@@ -78,16 +78,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Docker
+      - name: Install Docker Rootless
         run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh get-docker.sh
+          curl -fsSL https://get.docker.com/rootless -o get-docker-rootless.sh
+          sh get-docker-rootless.sh
+          export PATH=/home/runner/.docker/bin:$PATH
+          dockerd-rootless.sh --experimental &
+          sleep 10
+          docker context use rootless
 
-      - name: Start Docker service
+      - name: Verify Docker Installation
         run: |
-          sudo service docker start
-          # Ensure Docker is running
-          sudo docker info
+          docker info
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
