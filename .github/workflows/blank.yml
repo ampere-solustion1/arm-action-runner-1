@@ -103,59 +103,59 @@ jobs:
           docker buildx build --platform linux/${{ matrix.arch }} --tag ${{ secrets.DOCKER_USERNAME }}/ampere-solution-cicd-project:${{ matrix.arch }}-latest --push 
           
 
-      - name: Install Argo CD CLI
-        run: |
-          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-          chmod +x argocd
-          sudo mv argocd /usr/local/bin/
+      # - name: Install Argo CD CLI
+      #   run: |
+      #     curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+      #     chmod +x argocd
+      #     sudo mv argocd /usr/local/bin/
       
-      - name: Debug Environment Variables
-        run: |
-          echo "ARGOCD_SERVER: $ARGOCD_SERVER"
-          echo "ARGOCD_USERNAME: $ARGOCD_USERNAME"
-          echo "ARGOCD_PASSWORD: $ARGOCD_PASSWORD"
+      # - name: Debug Environment Variables
+      #   run: |
+      #     echo "ARGOCD_SERVER: $ARGOCD_SERVER"
+      #     echo "ARGOCD_USERNAME: $ARGOCD_USERNAME"
+      #     echo "ARGOCD_PASSWORD: $ARGOCD_PASSWORD"
       
-      - name: Check DNS Resolution with nslookup
-        continue-on-error: true  # Continue even if this step fails
-        run: |
-          nslookup $ARGOCD_SERVER
+      # - name: Check DNS Resolution with nslookup
+      #   continue-on-error: true  # Continue even if this step fails
+      #   run: |
+      #     nslookup $ARGOCD_SERVER
       
-      - name: Check DNS Resolution with dig
-        continue-on-error: true  # Continue even if this step fails
-        run: |
-          dig $ARGOCD_SERVER
+      # - name: Check DNS Resolution with dig
+      #   continue-on-error: true  # Continue even if this step fails
+      #   run: |
+      #     dig $ARGOCD_SERVER
       
-      - name: Check DNS Resolution with host
-        continue-on-error: true  # Continue even if this step fails
-        run: |
-          host $ARGOCD_SERVER
+      # - name: Check DNS Resolution with host
+      #   continue-on-error: true  # Continue even if this step fails
+      #   run: |
+      #     host $ARGOCD_SERVER
       
-      - name: Check Network Connectivity
-        continue-on-error: true  # Continue even if this step fails
-        run: |
-          ping -c 4 $ARGOCD_SERVER
+      # - name: Check Network Connectivity
+      #   continue-on-error: true  # Continue even if this step fails
+      #   run: |
+      #     ping -c 4 $ARGOCD_SERVER
       
-      - name: Verify Argo CD CLI Installation
-        run: |
-          which argocd
-          argocd version
+      # - name: Verify Argo CD CLI Installation
+      #   run: |
+      #     which argocd
+      #     argocd version
       
-      - name: Login Argo CD 
-        env:
-          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
-          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
-          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
-        run: |
-          # Debug the argocd login command
-          echo "argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure"
-          # Login to Argo CD and sync the application
-          argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
+      # - name: Login Argo CD 
+      #   env:
+      #     ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+      #     ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+      #     ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
+      #   run: |
+      #     # Debug the argocd login command
+      #     echo "argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure"
+      #     # Login to Argo CD and sync the application
+      #     argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
       
-      - name: Sync Argo CD Application
-        env:
-          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
-          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
-          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
-        run: |
-          argocd app sync nginx-app
+      # - name: Sync Argo CD Application
+      #   env:
+      #     ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+      #     ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+      #     ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
+      #   run: |
+      #     argocd app sync nginx-app
 
