@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         arch: [arm64, x86]
-    runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-genoa' || 'arc-runner-set-ampere' }}
+    runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-genoa' || 'arc-runner-set-banshee8' }}
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     steps:
