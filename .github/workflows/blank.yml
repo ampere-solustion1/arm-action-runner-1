@@ -10,18 +10,21 @@ jobs:
   build-and-push:
     runs-on: arc-runner-set-ampere
 
+    container:
+      image: docker:latest
+      options: --privileged -v /var/run/docker.sock:/var/run/docker.sock
+
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
       
-      - name: Ensure Docker is running
+      - name: Start Docker daemon
         run: |
-          if (! docker info > /dev/null 2>&1); then
-            echo "Docker is not running, attempting to start Docker..."
-            sudo systemctl start docker
-          else
-            echo "Docker is already running."
-          fi 
+          sudo dockerd > /dev/null 2>&1 &
+          sleep 10  # Wait for Docker to start
+        
+      - name: Check Docker status
+        run: docker info
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
