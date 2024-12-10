@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: 'arc-runner-set-ampere'
+    runs-on: 'arc-runner-set-ampere' 
 
     steps:
       - name: Check out the code
