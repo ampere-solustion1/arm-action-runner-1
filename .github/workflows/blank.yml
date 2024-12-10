@@ -16,7 +16,6 @@ jobs:
       
       - name: Log docker
         run: |
-          lscpu
           ls
           sudo systemctl status docker  
           sudo systemctl start docker   
