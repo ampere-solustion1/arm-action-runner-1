@@ -14,12 +14,14 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v3
       
-      - name: Log docker
+      - name: Ensure Docker is running
         run: |
-          ls
-          sudo systemctl status docker  
-          sudo systemctl start docker   
-          sudo systemctl enable docker  
+          if (! docker info > /dev/null 2>&1); then
+            echo "Docker is not running, attempting to start Docker..."
+            sudo systemctl start docker
+          else
+            echo "Docker is already running."
+          fi 
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
