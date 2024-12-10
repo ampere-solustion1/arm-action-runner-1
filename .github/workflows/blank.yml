@@ -13,6 +13,13 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
+      
+      - name: Log docker
+        run: |
+          lscpu
+          sudo systemctl status docker  # Check if Docker is running
+          sudo systemctl start docker   # Start Docker if it's not running
+          sudo systemctl enable docker  # Enable Docker to start on boot
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
