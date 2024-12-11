@@ -18,10 +18,10 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v3
       
-      - name: Start Docker daemon
-        run: |
-          sudo dockerd > /dev/null 2>&1 &
-          sleep 10  # Wait for Docker to start
+      # - name: Start Docker daemon
+      #   run: |
+      #     sudo dockerd > /dev/null 2>&1 &
+      #     sleep 10  # Wait for Docker to start
         
       - name: Check Docker status
         run: docker info
