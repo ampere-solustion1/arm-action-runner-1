@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
+
+      - name: Sleep for 60 seconds
+        run: sleep 60
       
       # - name: Start Docker daemon
       #   run: |
