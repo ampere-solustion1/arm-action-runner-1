@@ -9,7 +9,7 @@ on:
 jobs: 
   build-and-push: 
     runs-on: arc-runner-set-ampere13 
-
+ 
 
     steps:
       - name: Check out the code
