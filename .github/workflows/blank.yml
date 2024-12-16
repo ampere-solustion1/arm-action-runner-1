@@ -25,6 +25,7 @@ jobs:
       - name: Check Docker status
         run: |
           whoami
+          sudo usermod -aG docker runner
           sudo systemctl status docker | grep "active (running)" && echo "Docker is running" || echo "Docker is NOT running"
 
        
