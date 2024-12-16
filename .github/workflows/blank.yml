@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3 
 
       - name: Sleep for 60 seconds
-        run: sleep 1
+        run: sleep 90
       
       # - name: Start Docker daemon
       #   run: |
@@ -26,6 +26,7 @@ jobs:
         run: |
           whoami
           sudo usermod -aG docker runner
+          ls -l /var/run/docker.sock
           sudo systemctl status docker | grep "active (running)" && echo "Docker is running" || echo "Docker is NOT running"
 
        
