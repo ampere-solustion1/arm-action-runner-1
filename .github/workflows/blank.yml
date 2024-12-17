@@ -58,6 +58,7 @@ jobs:
           file: Dockerfile  
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cicd-project:arm64-latest
+          no-cache: true
 
       # - name: Build and push Docker image
       #   run: |
