@@ -54,8 +54,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: arm-action-runner-1
-          file: arm-action-runner-1/Dockerfile  
+          context: .
+          file: Dockerfile  
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cicd-project:arm64-latest
 
