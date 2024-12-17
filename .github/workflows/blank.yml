@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile  # Adjust this if your Dockerfile is in a different directory
+          file: arm-action-runner-1/Dockerfile  
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cicd-project:arm64-latest
 
