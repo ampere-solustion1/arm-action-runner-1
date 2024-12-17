@@ -57,7 +57,7 @@ jobs:
           context: .
           file: Dockerfile  # Adjust this if your Dockerfile is in a different directory
           push: true
-          tags: ampere-solution/arm-action-runner-1:lates
+          tags: ampere-solution/arm-action-runner-1:latest
 
       # - name: Build and push Docker image
       #   run: |
