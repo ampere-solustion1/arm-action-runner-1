@@ -57,7 +57,7 @@ jobs:
           context: .
           file: Dockerfile  # Adjust this if your Dockerfile is in a different directory
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/arm-action-runner-1:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/cicd-project:arm64-latest
 
       # - name: Build and push Docker image
       #   run: |
