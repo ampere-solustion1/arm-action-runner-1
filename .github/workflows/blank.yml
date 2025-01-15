@@ -126,6 +126,11 @@ jobs:
       - name: Set up test suite build directory
         run: mkdir test-suite-build
 
+      - name: Install Tcl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tcl
+
       - name: Configure test suite
         run: |
           cd test-suite-build
