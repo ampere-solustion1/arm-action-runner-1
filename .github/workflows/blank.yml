@@ -119,6 +119,45 @@ jobs:
           echo "Build completed on $(date)"
 
 
+      - name: Clone LLVM test suite
+        run: |
+          git clone https://github.com/llvm/llvm-test-suite.git test-suite
+
+      - name: Set up test suite build directory
+        run: mkdir test-suite-build
+
+      - name: Configure test suite
+        run: |
+          cd test-suite-build
+          cmake -G Ninja \
+            -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
+            -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
+            -DTEST_SUITE_RUN_TYPE=ref \
+            -DTEST_SUITE_SUBDIRS=MultiSource \
+            ../test-suite
+
+      - name: Run benchmark
+        run: |
+          cd test-suite-build
+          ninja
+
+      - name: Execute tests
+        run: |
+          cd test-suite-build
+          ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
+
+      - name: Install analysis tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install pandas scipy
+
+      - name: Analyze benchmark results
+        run: |
+          cd test-suite
+          python3 utils/compare.py ../test-suite-build/results.json
+
+
   # deploy:
   #   needs: LLVM_build
   #   strategy:
