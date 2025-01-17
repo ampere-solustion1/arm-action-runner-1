@@ -83,6 +83,7 @@ jobs:
           uname -a
           lsb_release -a || cat /etc/os-release
           lscpu
+          ping github.com
       
       - name: Checkout LLVM source code
         uses: actions/checkout@v4
