@@ -83,6 +83,7 @@ jobs:
           uname -a
           lsb_release -a || cat /etc/os-release
           lscpu
+          sudo apt-get update
       
       - name: Checkout LLVM source code
         uses: actions/checkout@v4
@@ -129,7 +130,7 @@ jobs:
 
       - name: Install Tcl
         run: |
-          sudo apt-get update
+          # sudo apt-get update
           sudo apt-get install -y tcl
 
       - name: Configure test suite
