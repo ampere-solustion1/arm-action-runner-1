@@ -65,7 +65,7 @@ jobs:
   LLVM_build:
     strategy:
       matrix:
-        arch: [x86]
+        arch: [arm64]
         # arch: [arm64, x86]
         
         
@@ -73,8 +73,8 @@ jobs:
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     #   build-and-push: 
-    # runs-on: arc-runner-set-ampere14
-    runs-on: arc-runner-set-genoa-llvm
+    runs-on: arc-runner-set-ampere14
+    # runs-on: arc-runner-set-genoa-llvm
 
     steps:
       - name: Log Operating System Details
