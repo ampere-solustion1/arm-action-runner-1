@@ -74,7 +74,7 @@ jobs:
 
     #   build-and-push: 
     # runs-on: arc-runners-bergamo-llvm
-    runs-on: arc-runner-set-04-mitchell-llvm 
+    runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
     # runs-on: arc-runner-set-genoa-llvm
 
