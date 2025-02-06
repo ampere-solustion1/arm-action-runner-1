@@ -105,7 +105,7 @@ jobs:
           cmake -G Ninja \
             -DLLVM_ENABLE_PROJECTS="clang" \
              -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi" \
-            -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
+            -DLLVM_TARGETS_TO_BUILD="all" \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_ASSERTIONS=ON \
             ../llvm
@@ -115,7 +115,7 @@ jobs:
           cd llvm-project/build
           ninja
         env:
-          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 8 || 8 }}
+          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 8 || 192 }}
 
       - name: Display build information
         run: |
@@ -153,7 +153,10 @@ jobs:
       - name: Execute tests
         run: |
           cd test-suite-build
-          ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
+          # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
+          ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
+        env:
+          JOBS: 192
 
       - name: Install analysis tools
         run: |
