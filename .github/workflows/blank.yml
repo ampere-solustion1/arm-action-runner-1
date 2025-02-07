@@ -73,8 +73,8 @@ jobs:
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     #   build-and-push: 
-    # runs-on: arc-runners-bergamo-llvm
-    runs-on: arc-runner-set-genoa-llvm
+    runs-on: arc-runner-set-bergamo-llvm
+    # runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
     # runs-on: arc-runner-set-genoa-llvm
 
@@ -116,7 +116,7 @@ jobs:
           cd llvm-project/build
           ninja
         env:
-          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 8 || 192 }}
+          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 192 || 192 }}
 
       - name: Display build information
         run: |
