@@ -104,7 +104,7 @@ jobs:
           cmake -G Ninja \
             -DLLVM_ENABLE_PROJECTS="clang" \
              -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi" \
-            -DLLVM_TARGETS_TO_BUILD="X86" \
+            -DLLVM_TARGETS_TO_BUILD="all" \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_ASSERTIONS=OFF \
             ../llvm
@@ -156,7 +156,7 @@ jobs:
           # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
           ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
         env:
-          JOBS: 2
+          JOBS: 4
 
       - name: Install analysis tools
         run: |
