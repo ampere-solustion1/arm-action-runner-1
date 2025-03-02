@@ -108,6 +108,9 @@ jobs:
             -DLLVM_TARGETS_TO_BUILD="all" \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_ASSERTIONS=OFF \
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+            -DCMAKE_C_FLAGS="-mcpu=ampere1 -mfpu=neon -O3 -flto -fopenmp " \
+            -DCMAKE_CXX_FLAGS="-mcpu=ampere1 -mfpu=neon -O3 -flto -fopenmp " \
             ../llvm
 
 
@@ -144,6 +147,9 @@ jobs:
             -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
             -DTEST_SUITE_RUN_TYPE=ref \
             -DTEST_SUITE_SUBDIRS=MultiSource \
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+            -DCMAKE_C_FLAGS="-mcpu=ampere1 -mfpu=neon -O3 -flto -fopenmp " \
+            -DCMAKE_CXX_FLAGS="-mcpu=ampere1 -mfpu=neon -O3 -flto -fopenmp " \
             ../test-suite
 
       - name: Run benchmark
