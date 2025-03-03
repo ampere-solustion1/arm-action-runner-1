@@ -100,6 +100,7 @@ jobs:
 
       - name: Configure LLVM build
         run: |
+          sudo apt-get install libomp-dev
           mkdir -p llvm-project/build
           cd llvm-project/build
           cmake -G Ninja \
@@ -108,8 +109,8 @@ jobs:
             -DLLVM_TARGETS_TO_BUILD="all" \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_ASSERTIONS=OFF \
-            -DCMAKE_C_FLAGS=" -O3 -fopenmp" \
-            -DCMAKE_CXX_FLAGS=" -O3 -fopenmp" \
+            -DCMAKE_C_FLAGS="-mcpu=ampere1  -O3 -fopenmp -fopenmp" \
+            -DCMAKE_CXX_FLAGS="-mcpu=ampere1  -O3 -fopenmp -fopenmp" \
             ../llvm
 
 
