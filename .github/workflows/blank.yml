@@ -73,8 +73,8 @@ jobs:
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     #   build-and-push: 
-    runs-on: arc-runner-set-bergamo-llvm
-    # runs-on: arc-runner-set-genoa-llvm
+    # runs-on: arc-runner-set-bergamo-llvm
+    runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
     # runs-on: arc-runners-banshee12-llvm
 
