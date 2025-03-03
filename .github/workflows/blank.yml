@@ -108,8 +108,8 @@ jobs:
             -DLLVM_TARGETS_TO_BUILD="all" \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_ASSERTIONS=OFF \
-            -DCMAKE_C_FLAGS="-mcpu=ampere1 -O3 -fopenmp" \
-            -DCMAKE_CXX_FLAGS="-mcpu=ampere1 -O3 -fopenmp" \
+            -DCMAKE_C_FLAGS="-mcpu=ampere1" \
+            -DCMAKE_CXX_FLAGS="-mcpu=ampere1" \
             ../llvm
 
 
