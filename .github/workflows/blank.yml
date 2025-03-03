@@ -96,11 +96,10 @@ jobs:
       - name: Set up build environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake ninja-build python3
+          sudo apt-get install -y build-essential cmake ninja-build python3 libomp-dev
 
       - name: Configure LLVM build
         run: |
-          sudo apt-get install libomp-dev
           mkdir -p llvm-project/build
           cd llvm-project/build
           cmake -G Ninja \
