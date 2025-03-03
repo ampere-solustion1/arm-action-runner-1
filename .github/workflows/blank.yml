@@ -173,7 +173,7 @@ jobs:
       - name: Analyze benchmark results
         run: |
           cd test-suite
-          python3 utils/compare.py ../test-suite-build/results.json
+          python3 utils/compare.py ../test-suite-build/results.json 
 
 
   # deploy:
