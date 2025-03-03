@@ -159,7 +159,7 @@ jobs:
         run: |
           cd test-suite-build
           # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
-          ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
+          ../llvm-project/build/bin/llvm-lit -q -j ${{ env.JOBS }} -o results.json .
         env:
           JOBS: 16
 
