@@ -139,30 +139,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y tcl
 
-      # - name: Configure test suite
-      #   run: |
-      #     cd test-suite-build
-      #     cmake -G Ninja \
-      #       -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
-      #       -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
-      #       -DTEST_SUITE_RUN_TYPE=ref \
-      #       -DTEST_SUITE_SUBDIRS=MultiSource \
-      #       -DCMAKE_C_FLAGS="-O3" \
-      #       -DCMAKE_CXX_FLAGS="-O3" \
-      #       ../test-suite
-
       - name: Configure test suite
         run: |
           cd test-suite-build
-          cmake -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
-            -C../test-suite/cmake/caches/O3.cmake \
+          cmake -G Ninja \
+            -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
+            -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
+            -DTEST_SUITE_RUN_TYPE=ref \
+            -DTEST_SUITE_SUBDIRS=MultiSource \
+            -DCMAKE_C_FLAGS="-O3" \
+            -DCMAKE_CXX_FLAGS="-O3" \
             ../test-suite
 
       - name: Run benchmark
         run: |
           cd test-suite-build
-          make
-          # ninja
+          ninja
 
       - name: Execute tests
         run: |
