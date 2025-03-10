@@ -65,7 +65,7 @@ jobs:
   LLVM_build:
     strategy:
       matrix:
-        arch: [arm64, x86]
+        arch: [arm64]
         # arch: [arm64, x86]
         
         
