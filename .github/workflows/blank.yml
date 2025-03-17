@@ -160,7 +160,11 @@ jobs:
         run: |
           cd test-suite-build
           # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
-          ../llvm-project/build/bin/llvm-lit -q -j ${{ env.JOBS }} -o results.json .
+          # ../llvm-project/build/bin/llvm-lit -q -j ${{ env.JOBS }} -o results.json .
+          for i in {1..30}; do
+            echo "Iteration $i"
+            taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -q -j ${{ env.JOBS }} -o results.json .
+          done
         env:
           JOBS: 192
 
