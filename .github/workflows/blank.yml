@@ -74,9 +74,9 @@ jobs:
 
     #   build-and-push: 
     # runs-on: arc-runner-set-bergamo-llvm
-    # runs-on: arc-runner-set-genoa-llvm
+    runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
-    runs-on: arc-runners-banshee12-llvm
+    # runs-on: arc-runners-banshee12-llvm
 
     steps:
       - name: Log Operating System Details
