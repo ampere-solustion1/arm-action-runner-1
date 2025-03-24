@@ -172,9 +172,10 @@ jobs:
         env:
           JOBS: 192
           
-      - name: Execute tests
+      - name: results.json
         run: |
           ls -al 
+          cat test-suite-build/results.json 
           
       - name: Install analysis tools
         run: |
