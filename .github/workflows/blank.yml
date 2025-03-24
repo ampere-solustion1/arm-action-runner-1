@@ -73,11 +73,11 @@ jobs:
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     #   build-and-push: 
-    # runs-on: arc-runner-set-bergamo-llvm
+    runs-on: arc-runner-set-bergamo-llvm
     # runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
     # runs-on: arc-runners-banshee12-llvm
-    runs-on: arc-runner-set-banshee8-llvm
+    # runs-on: arc-runner-set-banshee8-llvm
 
     steps:
       - name: Log Operating System Details
