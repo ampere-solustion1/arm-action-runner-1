@@ -164,7 +164,11 @@ jobs:
           taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
         env:
           JOBS: 192
-
+          
+      - name: Execute tests
+        run: |
+          cat ../test-suite-build/results.json 
+          
       - name: Install analysis tools
         run: |
           # sudo apt-get update
