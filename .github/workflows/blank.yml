@@ -76,7 +76,8 @@ jobs:
     # runs-on: arc-runner-set-bergamo-llvm
     # runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
-    runs-on: arc-runners-banshee12-llvm
+    # runs-on: arc-runners-banshee12-llvm
+    runs-on: arc-runner-set-banshee8-llvm
 
     steps:
       - name: Log Operating System Details
@@ -139,12 +140,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y tcl gcc g++ 
 
-      - name: Configure test suite with GCC
+      - name: Configure test suite
         run: |
           cd test-suite-build
           cmake -G Ninja \
-            -DCMAKE_C_COMPILER=gcc \
-            -DCMAKE_CXX_COMPILER=g++ \
+            -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
+            -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
             -DTEST_SUITE_RUN_TYPE=ref \
             -DTEST_SUITE_SUBDIRS=MultiSource \
             -DCMAKE_C_FLAGS="-O3" \
@@ -159,34 +160,10 @@ jobs:
       - name: Execute tests
         run: |
           cd test-suite-build
+          # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
           taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
         env:
           JOBS: 192
-
-      # - name: Configure test suite
-      #   run: |
-      #     cd test-suite-build
-      #     cmake -G Ninja \
-      #       -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
-      #       -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
-      #       -DTEST_SUITE_RUN_TYPE=ref \
-      #       -DTEST_SUITE_SUBDIRS=MultiSource \
-      #       -DCMAKE_C_FLAGS="-O3" \
-      #       -DCMAKE_CXX_FLAGS="-O3" \
-      #       ../test-suite
-
-      # - name: Run benchmark
-      #   run: |
-      #     cd test-suite-build
-      #     ninja
-
-      # - name: Execute tests
-      #   run: |
-      #     cd test-suite-build
-      #     # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
-      #     taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
-      #   env:
-      #     JOBS: 192
 
       - name: Install analysis tools
         run: |
