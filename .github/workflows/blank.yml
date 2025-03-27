@@ -73,10 +73,10 @@ jobs:
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     #   build-and-push: 
-    # runs-on: arc-runner-set-bergamo-llvm
+    runs-on: arc-runner-set-bergamo-llvm
     # runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
-    runs-on: arc-runners-banshee12-llvm
+    # runs-on: arc-runners-banshee12-llvm
     # runs-on: arc-runner-set-banshee8-llvm
 
     steps:
@@ -168,7 +168,7 @@ jobs:
         run: |
           cd test-suite-build
           # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
-          taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
+          perf stat -a -A -e instructions,cycles taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
         env:
           JOBS: 192
           
