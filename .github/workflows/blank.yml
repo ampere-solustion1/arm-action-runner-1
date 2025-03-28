@@ -139,6 +139,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tcl gcc g++ 
+          sudo apt install linux-tools-common linux-tools-generic linux-tools-$(uname -r)
 
       - name: Configure test suite
         run: |
