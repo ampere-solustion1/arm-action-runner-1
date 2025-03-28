@@ -98,6 +98,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential cmake ninja-build python3 libomp-dev
+          sudo apt install -y linux-tools-common linux-tools-generic 
+          perf list
 
       - name: Configure LLVM build
         run: |
@@ -139,7 +141,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tcl gcc g++ 
-          sudo apt install linux-tools-common linux-tools-generic 
+          sudo apt install -y linux-tools-common linux-tools-generic 
 
       - name: Configure test suite
         run: |
