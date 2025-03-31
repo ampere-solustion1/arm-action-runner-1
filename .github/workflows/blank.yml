@@ -126,6 +126,12 @@ jobs:
           ninja
         env:
           LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 64 || 64 }}
+      - name: Build LLVM2
+        run: |
+          cd llvm-project/build
+          ninja
+        env:
+          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 64 || 64 }}
 
       - name: Display build information
         run: |
@@ -152,13 +158,14 @@ jobs:
             -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
             -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
             -DTEST_SUITE_RUN_TYPE=ref \
-            -DTEST_SUITE_SUBDIRS=MicroBenchmarks \
+            -DTEST_SUITE_SUBDIRS=MultiSource \
+            -TEST_SUITE_BENCHMARKING_ONLY-True \
             -DCMAKE_C_FLAGS="-O3" \
             -DCMAKE_CXX_FLAGS="-O3" \
-            -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi;compiler-rt" \
             ../test-suite
 
             # -DTEST_SUITE_SUBDIRS=MultiSource \
+            # -DTEST_SUITE_SUBDIRS=MicroBenchmarks \
             
 
 
