@@ -161,7 +161,7 @@ jobs:
             -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
             -DTEST_SUITE_RUN_TYPE=ref \
             -DTEST_SUITE_SUBDIRS=MultiSource \
-            -TEST_SUITE_BENCHMARKING_ONLY-True \
+            -TEST_SUITE_BENCHMARKING_ONLY=True \
             -DCMAKE_C_FLAGS="-O3" \
             -DCMAKE_CXX_FLAGS="-O3" \
             ../test-suite
