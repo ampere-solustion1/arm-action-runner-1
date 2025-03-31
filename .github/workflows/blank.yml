@@ -73,11 +73,11 @@ jobs:
     # runs-on: ${{ matrix.arch == 'x86' && 'arc-runner-set-x86' || 'arc-runner-set-ampere' }}
 
     #   build-and-push: 
-    # runs-on: arc-runner-set-bergamo-llvm
+    runs-on: arc-runner-set-bergamo-llvm
     # runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
     # runs-on: arc-runners-banshee12-llvm
-    runs-on: arc-runner-set-banshee8-llvm
+    # runs-on: arc-runner-set-banshee8-llvm
 
     steps:
       - name: Log Operating System Details
@@ -107,6 +107,8 @@ jobs:
           mkdir -p llvm-project/build
           cd llvm-project/build
           cmake -G Ninja \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DLLVM_ENABLE_PROJECTS="clang" \
              -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="all" \
