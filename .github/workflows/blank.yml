@@ -2,7 +2,7 @@
 # name: Build and Push WordPress Docker Image
  
 # on:  
-#   push:
+#   push: 
 #     branches:
 #       - main  
    
