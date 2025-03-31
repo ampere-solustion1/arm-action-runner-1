@@ -150,11 +150,12 @@ jobs:
             -DCMAKE_C_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang \
             -DCMAKE_CXX_COMPILER=${{ github.workspace }}/llvm-project/build/bin/clang++ \
             -DTEST_SUITE_RUN_TYPE=ref \
-            # -DTEST_SUITE_SUBDIRS=MultiSource \
             -DTEST_SUITE_SUBDIRS=MicroBenchmarks \
             -DCMAKE_C_FLAGS="-O3" \
             -DCMAKE_CXX_FLAGS="-O3" \
             ../test-suite
+
+            # -DTEST_SUITE_SUBDIRS=MultiSource \
 
 
       - name: Run benchmark
