@@ -107,8 +107,6 @@ jobs:
           mkdir -p llvm-project/build
           cd llvm-project/build
           cmake -G Ninja \
-          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DLLVM_ENABLE_PROJECTS="clang" \
              -DLLVM_ENABLE_RUNTIMES="libunwind;libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="all" \
@@ -123,12 +121,6 @@ jobs:
 
 
       - name: Build LLVM
-        run: |
-          cd llvm-project/build
-          ninja
-        env:
-          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 64 || 64 }}
-      - name: Build LLVM2
         run: |
           cd llvm-project/build
           ninja
