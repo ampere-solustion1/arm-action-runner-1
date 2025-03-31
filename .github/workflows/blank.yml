@@ -128,7 +128,7 @@ jobs:
       - name: Display build information
         run: |
           echo "Architecture: ${{ matrix.arch }}"
-          echo "Build completed on $(date)"
+          echo "Build completed on $(date)" 
 
 
       - name: Clone LLVM test suite
