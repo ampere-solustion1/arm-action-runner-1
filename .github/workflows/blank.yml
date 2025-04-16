@@ -154,6 +154,7 @@ jobs:
             -DTEST_SUITE_RUN_TYPE=ref \
             -DTEST_SUITE_SUBDIRS=MicroBenchmarks \
             -DTEST_SUITE_BENCHMARKING_ONLY=True \
+            -DLLVM_ENABLE_RUNTIMES="compiler-rt"
             -DCMAKE_C_FLAGS="-O3" \
             -DCMAKE_CXX_FLAGS="-O3" \
             ../test-suite
