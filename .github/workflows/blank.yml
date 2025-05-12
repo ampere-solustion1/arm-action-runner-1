@@ -172,17 +172,23 @@ jobs:
       - name: Execute tests
         run: |
           cd test-suite-build
-          # Determine optimal number of jobs based on available CPU cores
-          CPU_CORES=$(nproc)
-          JOBS=$((CPU_CORES * 3 / 4))  # Use 75% of available cores for parallel jobs
-          echo "Running tests with ${JOBS} parallel jobs on ${CPU_CORES} cores"
-          
-          # Use numactl for NUMA-aware task scheduling (if applicable)
           if command -v numactl &> /dev/null; then
-            numactl --cpunodebind=0 --membind=0 ../llvm-project/build/bin/llvm-lit -v -j ${JOBS} -o results.json .
+            numactl --cpunodebind=0 --membind=0 ../llvm-project/build/bin/llvm-lit -v -j $(( $(nproc) * 3 / 4 )) -o results.json .
           else
-            taskset -c 0-$((CPU_CORES - 1)) ../llvm-project/build/bin/llvm-lit -v -j ${JOBS} -o results.json .
+            ../llvm-project/build/bin/llvm-lit -v -j $(( $(nproc) * 3 / 4 )) -o results.json .
           fi
+          
+          # # Determine optimal number of jobs based on available CPU cores
+          # CPU_CORES=$(nproc)
+          # JOBS=$((CPU_CORES * 3 / 4))  # Use 75% of available cores for parallel jobs
+          # echo "Running tests with ${JOBS} parallel jobs on ${CPU_CORES} cores"
+          
+          # # Use numactl for NUMA-aware task scheduling (if applicable)
+          # if command -v numactl &> /dev/null; then
+          #   numactl --cpunodebind=0 --membind=0 ../llvm-project/build/bin/llvm-lit -v -j ${JOBS} -o results.json .
+          # else
+          #   taskset -c 0-$((CPU_CORES - 1)) ../llvm-project/build/bin/llvm-lit -v -j ${JOBS} -o results.json .
+          # fi
           
         #   # ../llvm-project/build/bin/llvm-lit -v -j 1 -o results.json .
         #   taskset -c 0-191 ../llvm-project/build/bin/llvm-lit -v -j ${{ env.JOBS }} -o results.json .
