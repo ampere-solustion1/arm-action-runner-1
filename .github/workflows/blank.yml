@@ -155,8 +155,8 @@ jobs:
             -DTEST_SUITE_SUBDIRS=MicroBenchmarks \
             -DTEST_SUITE_BENCHMARKING_ONLY=True \
             -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
-            -DCMAKE_C_FLAGS="-O3" \
-            -DCMAKE_CXX_FLAGS="-O3" \
+            -DCMAKE_C_FLAGS="-O3 -mcpu=ampere1 -mtune=ampere1 -ffast-math -fvectorize -fslp-vectorize" \
+            -DCMAKE_CXX_FLAGS="-O3 -mcpu=ampere1 -mtune=ampere1 -ffast-math -fvectorize -fslp-vectorize" \
             ../test-suite
 
             # -DTEST_SUITE_SUBDIRS=MultiSource \
