@@ -76,8 +76,8 @@ jobs:
     # runs-on: arc-runner-set-bergamo-llvm
     # runs-on: arc-runner-set-genoa-llvm
     # runs-on: arc-runner-set-milan-llvm
-    # runs-on: arc-runners-banshee12-llvm
-    runs-on: arc-runner-set-banshee8-llvm
+    runs-on: arc-runners-banshee12-llvm
+    # runs-on: arc-runner-set-banshee8-llvm
 
     steps:
       - name: Log Operating System Details
@@ -125,7 +125,7 @@ jobs:
           cd llvm-project/build
           ninja
         env:
-          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 8 || 8 }}
+          LLVM_PARALLEL_COMPILE_JOBS: ${{ matrix.arch == 'x86' && 192 || 192 }}
 
       - name: Display build information
         run: |
